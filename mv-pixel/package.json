@@ -1,0 +1,8 @@
+{
+  "name": "mv-pixel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Code-drawn pixel-art lyric video renderer (frames are drawn by the program; the soundtrack is supplied locally and never stored here)",
+  "license": "MIT",
+  "engines": { "node": ">=18" }
+}

@@ -27,7 +27,7 @@ const sheet = new FB(cols * W * scale, rows * H * scale);
 const fb = new FB(W, H);
 times.forEach((t, i) => {
   show.frame(fb, t);
-  if (args.label !== '0') text(fb, t.toFixed(2), W - 4, 2, 0xffff66, { align: 'right', outline: 0x000000 });
+  if (args.label !== '0') text(fb, t.toFixed(2), 160, 0, 0xffff66, { align: 'center', outline: 0x000000 });
   sheet.blit(fb, 0, 0, W, H, (i % cols) * W * scale, Math.floor(i / cols) * H * scale, scale);
 });
 

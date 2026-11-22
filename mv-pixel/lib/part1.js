@@ -525,11 +525,13 @@ function create(ctx) {
     void big;
   }
   ctx.dropPrint = dropPrint;
+  const LEAD = 0.3;
   add(48, 52, (fb, t, b) => {
-    const land = DROPS.some((d, i) => { const u = (b - i) * P; return u > 0.3 && u < 0.38; });
+    // each print starts falling early enough to land on its beat
+    const land = DROPS.some((d, i) => { const u = (b - i) * P + LEAD; return u > 0.3 && u < 0.38; });
     props.desk(fb, t);
     if (land) fb.oy = 1;
-    DROPS.forEach(([id, x, y, tc], i) => dropPrint(fb, t, id, x, y, (b - i) * P, tc));
+    DROPS.forEach(([id, x, y, tc], i) => dropPrint(fb, t, id, x, y, (b - i) * P + LEAD, tc));
     fb.oy = 0;
   });
 
@@ -609,12 +611,12 @@ function create(ctx) {
     const k = easeBack((b - 0.35) / 0.7);
     const n = cfg.title ? [...cfg.title].length : 0;
     const chars = Math.floor(clamp((b - 1.3) / 1.0) * n + 0.001);
-    const left = { id: 'cat' };
-    const right = { id: 'first', corners: true, title: true, chars: Math.max(0, chars), dy: Math.round(lerp(-150, 0, k)), doodle: b > 2.5, show: b > 0.35 };
-    if (chars <= 0) right.chars = 0;
-    spread(fb, t, left, right, left, right, 0);
+    // the same last spread it fell out of: its corners on the left page, the right page still empty
+    const left = { id: 'first', corners: true, title: true, chars: Math.max(0, chars), dy: Math.round(lerp(-150, 0, k)), doodle: b > 2.5, show: b > 0.35 };
+    if (chars <= 0) left.chars = 0;
+    spread(fb, t, left, null, left, null, 0);
     // the corners stay put while the print slides in
-    const p = props.pageRect('R');
+    const p = props.pageRect('L');
     const px = p.x + ((p.w - 104) >> 1), py = p.y + 9;
     props.photoCorners(fb, px + 1, py + 1, 102, 90, 0x3d4a66);
     if (b > 1.0) {

@@ -1,0 +1,4 @@
+RiversideKai.ttf is a subset (ASCII, GB2312 characters and common punctuation) of
+LXGW WenKai Medium v1.530, https://github.com/lxgw/LxgwWenKai, renamed as its licence
+requires for modified versions. It is licensed under the SIL Open Font License 1.1;
+the full text and the original copyright notices are in FONT-LICENSE.txt.

@@ -1,0 +1,8 @@
+{
+  "name": "mv-real",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Photo-film lyric video renderer: still photographs (AI-generated, fictional people) animated with camera moves, prints, light and grain. The soundtrack and the caption text are supplied locally and never stored here.",
+  "license": "MIT",
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,47 @@
+{
+ "desk": {
+  "file": "desk.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_apple": {
+  "file": "y09_apple.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_first": {
+  "file": "y09_first.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_her": {
+  "file": "y09_her.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_him": {
+  "file": "y09_him.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_pre1": {
+  "file": "y09_pre1.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_pre2": {
+  "file": "y09_pre2.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_tripod": {
+  "file": "y09_tripod.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y19_test": {
+  "file": "y19_test.jpg",
+  "w": 1280,
+  "h": 720
+ }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "mv-anhao",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Original-visual music video renderer: procedural scenes synced to a local audio file",
+  "license": "MIT",
+  "dependencies": {
+    "@napi-rs/canvas": "1.2.0"
+  }
+}

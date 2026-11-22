@@ -173,7 +173,7 @@ function createStage(ctx) {
     let f = fbs.get(id);
     if (!f) { f = new FB(W, H); fbs.set(id, f); }
     if (f.at === t) return f;
-    if (id === 'now') nowPhoto(f, t);
+    if (id === 'now') (nowDraw || nowPhoto)(f, t);
     else {
       const p = PHOTOS[id];
       scene(f, { t, cam: p.cam, look: world.look(p.look), ...p.make(t) });
@@ -182,7 +182,10 @@ function createStage(ctx) {
     return f;
   }
 
-  // Today's photo: the same spot, standing close.
+  // Today's photo: the same spot, standing close. The last shots replace this stand-in with
+  // the frame the camera actually takes (setNow).
+  let nowDraw = null;
+  function setNow(fn) { nowDraw = fn; fbs.delete('now'); }
   function nowPhoto(f, t) {
     const look = world.look({ season: 'spring', time: 'sunset', era: 1 });
     scene(f, {
@@ -198,7 +201,7 @@ function createStage(ctx) {
     });
   }
 
-  return { photo, stamps, order: ORDER };
+  return { photo, stamps, order: ORDER, setNow };
 }
 
 module.exports = { createStage, scene, zoom, printBorder, WEAR, PHOTOS, ORDER, snowman, umbrella, lolly, CAT, CAT_PAL };

@@ -858,7 +858,7 @@ async function slideTransport() {
 
   s.rect(MX, 5.62, tw, 1.12, C.panel, { name: 'Hub panel' });
   s.rect(MX, 5.62, 0.05, 1.12, C.gold, { name: 'Hub mark' });
-  s.text('轨道下穿航站楼，“零距离换乘”', MX + 0.28, 5.74, tw - 0.5, 0.32, { fontSize: 14, bold: true, color: C.white, name: 'Hub title' });
+  s.text('轨道下穿航站楼，实现“零距离换乘”', MX + 0.28, 5.74, tw - 0.5, 0.32, { fontSize: 14, bold: true, color: C.white, name: 'Hub title' });
   s.text('站台层在航站楼地下二层，换乘大厅在地下一层，出站即可值机；公共交通分担比例规划达到 50% 以上。', MX + 0.28, 6.1, tw - 0.5, 0.56, { fontSize: 11.5, color: C.sub, lineSpacingMultiple: 1.2, name: 'Hub text' });
   s.anim('Hub panel', 'wipe', 2500, 600);
   s.anim('Hub mark', 'wipe', 2900, 350, { dir: 'up' });

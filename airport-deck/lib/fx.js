@@ -37,6 +37,18 @@ function applyGradients(xml) {
   return xml;
 }
 
+// ---------- bullets ---------------------------------------------------------------------
+
+// PptxGenJS can only emit a plain bullet character; give it the accent colour and a
+// smaller size. `BULLET_CODE` is the character code to pass as `bullet.characterCode`.
+const BULLET_CODE = '25A0';
+
+function styleBullets(xml, color) {
+  return xml
+    .split(`<a:buSzPct val="100000"/><a:buChar char="&#x${BULLET_CODE};"/>`)
+    .join(`<a:buClr><a:srgbClr val="${color}"/></a:buClr><a:buSzPct val="60000"/><a:buFont typeface="Arial"/><a:buChar char="&#x${BULLET_CODE};"/>`);
+}
+
 // ---------- transitions -----------------------------------------------------------------
 
 function transitionXml(kind) {
@@ -70,19 +82,22 @@ function timingXml(effects, shapes) {
   if (!effects.length) return '';
   let nextId = 5;
   const id = () => nextId++;
-  const built = new Set();
+  const built = new Map(); // spid -> animated paragraph by paragraph?
 
   const pars = effects.map((fx) => {
     const shape = shapes.get(fx.target);
     if (!shape) throw new Error(`animation target not found on slide: ${fx.target}`);
     const spid = shape.id;
-    const tgt = `<p:tgtEl><p:spTgt spid="${spid}"/></p:tgtEl>`;
+    const byPara = fx.para !== undefined;
+    const tgt = byPara
+      ? `<p:tgtEl><p:spTgt spid="${spid}"><p:txEl><p:pRg st="${fx.para}" end="${fx.para}"/></p:txEl></p:spTgt></p:tgtEl>`
+      : `<p:tgtEl><p:spTgt spid="${spid}"/></p:tgtEl>`;
     const dur = fx.dur || 600;
     // PowerPoint keeps a build entry (grpId) for auto shapes and text boxes, not for pictures.
     let grp = '';
     if (shape.kind === 'sp' && fx.type !== 'grow') {
       grp = ' grpId="0"';
-      built.add(spid);
+      built.set(spid, byPara || built.get(spid) === true);
     }
 
     const show =
@@ -154,7 +169,9 @@ function timingXml(effects, shapes) {
   });
 
   const bld = built.size
-    ? `<p:bldLst>${[...built].map((spid) => `<p:bldP spid="${spid}" grpId="0" animBg="1"/>`).join('')}</p:bldLst>`
+    ? `<p:bldLst>${[...built]
+        .map(([spid, byPara]) => `<p:bldP spid="${spid}" grpId="0" ${byPara ? 'build="p"' : 'animBg="1"'}/>`)
+        .join('')}</p:bldLst>`
     : '';
 
   // One click-less sequence: everything starts by itself when the slide appears.
@@ -187,11 +204,11 @@ function shapeIndex(xml) {
 
 /** Adds gradients, the transition and the animation timeline to one slide's XML. */
 function decorateSlide(xml, spec) {
-  xml = applyGradients(xml);
+  xml = styleBullets(applyGradients(xml), spec.bulletColor || 'FFFFFF');
   const extra = transitionXml(spec.transition) + timingXml(spec.effects || [], shapeIndex(xml));
   const anchor = '</p:clrMapOvr>';
   if (!xml.includes(anchor)) throw new Error('slide XML has no clrMapOvr anchor');
   return xml.replace(anchor, anchor + extra);
 }
 
-module.exports = { gradient, decorateSlide, shapeIndex };
+module.exports = { gradient, decorateSlide, shapeIndex, BULLET_CODE };

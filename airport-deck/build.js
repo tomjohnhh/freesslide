@@ -9,7 +9,7 @@ const path = require('path');
 const PptxGenJS = require('pptxgenjs');
 const JSZip = require('jszip');
 const sharp = require('sharp');
-const { gradient, decorateSlide } = require('./lib/fx');
+const { gradient, decorateSlide, BULLET_CODE } = require('./lib/fx');
 
 const ROOT = __dirname;
 const PHOTOS = path.join(ROOT, 'photos');
@@ -79,7 +79,7 @@ const numRun = (text, options = {}) => run(text, { fontFace: FONT.num, ...option
 function newSlide(transition) {
   const slide = pptx.addSlide();
   slide.background = { color: C.bg };
-  const spec = { transition, effects: [] };
+  const spec = { transition, effects: [], bulletColor: C.gold };
   specs.push(spec);
   let counter = 0;
   const auto = (prefix) => `${prefix} ${++counter}`;
@@ -146,6 +146,11 @@ const SOURCE_NOTE = '数据来源：中国民航局《2025 年全国民用运输
 function creditText(key) {
   const p = photoInfo[key];
   return `图：${p.what}  ·  ${p.artist}  ·  ${p.license}`;
+}
+
+/** Paragraph runs for a bulleted list; the text box flows them, so wrapping never overlaps. */
+function bulletRuns(items, spaceAfter) {
+  return items.map((item) => run(item, { bullet: { characterCode: BULLET_CODE, indent: 15 }, paraSpaceAfter: spaceAfter, breakLine: true }));
 }
 
 /** Rough width of a string in "full-width character" units, for line estimates. */
@@ -508,18 +513,8 @@ async function slideAirport(a, page, side, transition) {
     s.anim(bar, 'wipe', d + 250, 450);
   });
 
-  const perLine = Math.floor((cw - 0.24) / (12 / 72)) - 2; // slack for line-break rules
-  let fy = 4.66;
-  a.facts.forEach((fact, i) => {
-    const lines = Math.ceil(visualLength(fact) / perLine);
-    const h = 0.06 + lines * 0.2;
-    const dot = s.rect(x0, fy + 0.085, 0.07, 0.07, C.gold, { name: `Fact ${i + 1} dot` });
-    const t = s.text(fact, x0 + 0.24, fy, cw - 0.24, h, { fontSize: 12, color: C.text, lineSpacingMultiple: 1.12, name: `Fact ${i + 1}` });
-    s.anim(dot, 'fade', 800 + i * 150, 400);
-    s.anim(t, 'slide', 800 + i * 150, 550, { offset: left ? 0.03 : -0.03 });
-    fy += h + 0.09;
-  });
-  if (fy > 6.95) throw new Error(`facts overflow on ${a.code}: ${fy.toFixed(2)}`);
+  s.text(bulletRuns(a.facts, 7), x0, 4.66, cw, 2.2, { fontSize: 12, color: C.text, lineSpacingMultiple: 1.12, name: 'Facts' });
+  a.facts.forEach((_, i) => s.anim('Facts', 'slide', 800 + i * 150, 550, { para: i, offset: left ? 0.03 : -0.03 }));
 
   s.text(`${String(page).padStart(2, '0')} / ${TOTAL}`, x0 + cw - 1.4, 7.09, 1.4, 0.22, { fontSize: 9, color: C.muted, align: 'right', fontFace: FONT.num, name: 'Footer page' });
   s.text('PART 02  ·  枢纽巡礼', x0, 7.09, 3, 0.22, { fontSize: 9, color: C.muted, name: 'Footer title' });
@@ -585,13 +580,8 @@ async function slideCargo() {
     '鄂州花湖机场 2022 年 7 月 17 日投运，是亚洲首个专业货运枢纽机场',
     '货邮吞吐量 10 万吨以上的机场共 35 个，合计占全国的 93.6%',
   ];
-  notes.forEach((note, i) => {
-    const y = 5.55 + i * 0.4;
-    const dot = s.rect(0.7, y + 0.085, 0.07, 0.07, C.gold, { name: `Note ${i + 1} dot` });
-    const t = s.text(note, 0.94, y, cw - 0.24, 0.3, { fontSize: 12, color: C.text, name: `Note ${i + 1}` });
-    s.anim(dot, 'fade', 1500 + i * 160, 400);
-    s.anim(t, 'slide', 1500 + i * 160, 550, { offset: -0.03 });
-  });
+  s.text(bulletRuns(notes, 8), 0.7, 5.52, cw, 1.35, { fontSize: 12, color: C.text, lineSpacingMultiple: 1.12, name: 'Notes' });
+  notes.forEach((_, i) => s.anim('Notes', 'slide', 1500 + i * 160, 550, { para: i, offset: -0.03 }));
   footer(s, 12, { w: cw, note: '' });
 }
 
@@ -687,15 +677,12 @@ async function slideSources() {
     ['设施与时间节点', '各机场及机场集团官网、中国民航局与相关地方政府网站、新华社等公开报道。'],
     ['计算说明', '机场群占全国比重、北京与成都“两场合计”等，为根据公报数据计算所得；“首次突破”为与上年及历史数据对比的结论。'],
   ];
-  let y = 2.35;
-  data.forEach(([label, text], i) => {
-    const lines = Math.ceil(visualLength(text) / (Math.floor(5.6 / (10.5 / 72)) - 2));
-    const l = s.text(label, 0.7, y, 5.6, 0.25, { fontSize: 11, bold: true, color: C.white, name: `Data ${i + 1} label` });
-    const t = s.text(text, 0.7, y + 0.28, 5.6, lines * 0.22 + 0.05, { fontSize: 10.5, color: C.sub, lineSpacingMultiple: 1.2, name: `Data ${i + 1} text` });
-    s.anim(l, 'fade', 500 + i * 150, 500);
-    s.anim(t, 'fade', 500 + i * 150, 500);
-    y += 0.28 + lines * 0.22 + 0.22;
-  });
+  const dataRuns = data.flatMap(([label, text]) => [
+    run(label, { fontSize: 11, bold: true, color: C.white, paraSpaceAfter: 3, breakLine: true }),
+    run(text, { paraSpaceAfter: 12, breakLine: true }),
+  ]);
+  s.text(dataRuns, 0.7, 2.35, 5.6, 4.3, { fontSize: 10.5, color: C.sub, lineSpacingMultiple: 1.2, name: 'Data list' });
+  s.anim('Data list', 'fade', 700, 700);
 
   const x = 6.95;
   const w = W - 0.7 - x;

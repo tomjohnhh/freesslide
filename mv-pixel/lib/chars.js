@@ -117,8 +117,7 @@ function drawGirl(fb, cx, gy, pose = {}) {
     R(3, 25 + ub, 6, 1, C.topSh); R(13, 25 + ub, 6, 1, C.topSh);
     R(9, 23 + ub, 4, 3, SKIN); R(9, 25 + ub, 4, 1, SKIN_SH);
   } else if (arms === 'cheeks') {
-    R(2, 17 + ub, 3, 4, C.top); R(17, 17 + ub, 3, 4, C.top);
-    R(2, 13 + ub, 3, 4, C.top); R(17, 13 + ub, 3, 4, C.top);
+    // drawn after the head so the forearms sit in front of the hair
   } else {
     R(2, 18 + ub, 3, 9 + sw, C.top); R(17, 18 + ub, 3, 9 - sw, C.top);
     R(2, 26 + ub + sw, 3, 1, C.topSh); R(17, 26 + ub - sw, 3, 1, C.topSh);
@@ -138,9 +137,15 @@ function drawGirl(fb, cx, gy, pose = {}) {
   R(15 + hx, 4 + hy, 2, 2, C.clip);
   face(R, pose, hx, hy);
   if (arms === 'cheeks') {
-    R(1 + hx, 10 + ub, 4, 4, SKIN); R(17 + hx, 10 + ub, 4, 4, SKIN);
-    R(1 + hx, 13 + ub, 4, 1, SKIN_SH); R(17 + hx, 13 + ub, 4, 1, SKIN_SH);
-    R(4 + hx, 10 + ub, 1, 3, SKIN_SH); R(17 + hx, 10 + ub, 1, 3, SKIN_SH);
+    for (const x of [1, 17]) {
+      R(x, 15 + ub, 4, 9, C.top);
+      R(x, 15 + ub, 4, 1, C.topSh);
+      R(x === 1 ? 1 : 20, 16 + ub, 1, 8, x === 1 ? C.topSh : C.topRim);
+      R(x + hx, 10 + ub, 4, 5, SKIN);
+      R(x + hx, 14 + ub, 4, 1, SKIN_SH);
+      R((x === 1 ? 4 : 17) + hx, 10 + ub, 1, 4, SKIN_SH);
+      R((x === 1 ? 2 : 19) + hx, 10 + ub, 1, 2, SKIN_SH);
+    }
   }
 }
 

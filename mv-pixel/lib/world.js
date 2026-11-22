@@ -53,7 +53,7 @@ function skyline(seed, from, to, minH, maxH) {
   return out;
 }
 const FAR1 = skyline(11, -20, 420, 5, 17);
-const FAR2 = skyline(29, -20, 460, 4, 27);
+const FAR2 = skyline(29, -20, 460, 4, 21);
 const r1 = rng(77);
 const BANK_TREES = Array.from({ length: 70 }, (_, i) => ({ x: -20 + i * 7 + Math.floor(r1() * 4), r: 2 + Math.floor(r1() * 3) }));
 const TUFTS = Array.from({ length: 150 }, () => ({ x: Math.floor(r1() * 480) - 30, y: Math.floor(r1() * 9), c: r1() }));
@@ -74,7 +74,7 @@ function drawSky(fb, t, cam) {
     if (tw > -0.2) fb.set(s.x, s.y, s.b > 0.7 && tw > 0.6 ? 0xfff6d8 : 0xb9a9d6);
   }
   const sx = Math.round(161.6 - cam * 0.04);
-  const sy = 87;
+  const sy = 79;
   fb.ellipseD(sx, sy, 40, 34, 0xffc98a, 0.19);
   fb.ellipseD(sx, sy, 30, 27, 0xffd698, 0.38);
   fb.ellipseD(sx, sy, 22, 21, 0xffe3ad, 0.62);

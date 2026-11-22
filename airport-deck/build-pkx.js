@@ -206,9 +206,10 @@ function credit(s, keys, x, y, w, o = {}) {
 
 /** Darkens the bottom edge of a full-height photo so the credit line stays readable. */
 function photoShade(s, x, w, name = 'Photo credit shade') {
-  return s.rect(x, H - 1.1, w, 1.1, gradient(90, [
+  return s.rect(x, H - 1.2, w, 1.2, gradient(90, [
     { pos: 0, color: C.deep, alpha: 0 },
-    { pos: 100, color: C.deep, alpha: 72 },
+    { pos: 55, color: C.deep, alpha: 70 },
+    { pos: 100, color: C.deep, alpha: 90 },
   ]), { name });
 }
 
@@ -502,7 +503,7 @@ async function slideDesign() {
   const s = newSlide('gallery');
   const pw = 6.0;
   const x = pw + 0.6, tw = W - MX - x;
-  s.image(await crop('pkx_aerial', pw, H, { fx: 0.5, fy: 0.5, tone: { contrast: 1.22, saturation: 1.18, offset: -6 } }), 0, 0, pw, H, '!!hero', photoInfo.pkx_aerial.what);
+  s.image(await crop('pkx_aerial', pw, H, { fx: 0.5, fy: 0.5, tone: { contrast: 1.1, saturation: 1.25, offset: -17 } }), 0, 0, pw, H, '!!hero', photoInfo.pkx_aerial.what);
   heading(s, '03  建筑设计', '凤凰展翅：中心放射的五指廊', { x, w: tw });
   stat(s, 'Walk', '600', '米', '中心到最远端登机口', x, 1.9, 2.0, { delay: 600 });
   stat(s, 'Time', '8', '分钟', '以内步行可达', x + 2.1, 1.9, 2.0, { delay: 800 });
@@ -564,9 +565,10 @@ async function slideGallery() {
   for (const [i, [key, x, y, w, h, caption, effect, focus]] of tiles.entries()) {
     const n = `Tile ${i + 1}`;
     s.image(await crop(key, w, h, focus), x, y, w, h, n, photoInfo[key].what);
-    s.rect(x, y + h - 0.62, w, 0.62, gradient(90, [
+    s.rect(x, y + h - 0.75, w, 0.75, gradient(90, [
       { pos: 0, color: C.deep, alpha: 0 },
-      { pos: 100, color: C.deep, alpha: 88 },
+      { pos: 55, color: C.deep, alpha: 72 },
+      { pos: 100, color: C.deep, alpha: 92 },
     ]), { name: n + ' shade' });
     s.text(caption, x + 0.18, y + h - 0.36, w - 0.3, 0.26, { fontSize: 11.5, color: C.white, name: n + ' caption' });
     const d = 600 + i * 380;
@@ -645,7 +647,9 @@ async function slideRunways() {
     const angle = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
     const cx = (x1 + x2) / 2, cy = (y1 + y2) / 2;
     const n = `Runway ${i + 1}`;
-    s.rect(cx - len / 2, cy - 0.045, len, 0.09, 'C9D1DE', { name: n, rotate: (angle + 360) % 360 });
+    // Steep runways are drawn as upright bars so the wipe runs along their length.
+    if (Math.abs(Math.abs(angle) - 90) < 45) s.rect(cx - 0.045, cy - len / 2, 0.09, len, 'C9D1DE', { name: n, rotate: (angle - 90 + 360) % 360 });
+    else s.rect(cx - len / 2, cy - 0.045, len, 0.09, 'C9D1DE', { name: n, rotate: (angle + 360) % 360 });
     s.text([run(name, { fontSize: 10, color: C.white, bold: true, breakLine: true }), numRun(code, { fontSize: 9.5, color: C.sub })],
       cx + off[0] - (off[0] < 0 ? 0.45 : 0), cy + off[1], 1.05, 0.42, { name: n + ' label', align: off[0] < 0 ? 'right' : 'left' });
     const d = 1300 + i * 350;
@@ -865,9 +869,10 @@ async function slideTransport() {
   s.image(await crop('pkx_metro', pw, ph, { fx: 0.5, fy: 0.55 }), px, 1.95, pw, ph, 'Metro photo', photoInfo.pkx_metro.what);
   s.image(await crop('pkx_rail', pw, ph, { fx: 0.5, fy: 0.45 }), px, 1.95 + ph + 0.1, pw, ph, 'Rail photo', photoInfo.pkx_rail.what);
   [['Metro', 1.95, '轨道交通大兴机场线  ·  大兴机场站站台'], ['Rail', 1.95 + ph + 0.1, '铁路大兴机场站站台']].forEach(([key, y, caption]) => {
-    s.rect(px, y + ph - 0.56, pw, 0.56, gradient(90, [
+    s.rect(px, y + ph - 0.7, pw, 0.7, gradient(90, [
       { pos: 0, color: C.deep, alpha: 0 },
-      { pos: 100, color: C.deep, alpha: 88 },
+      { pos: 55, color: C.deep, alpha: 72 },
+      { pos: 100, color: C.deep, alpha: 92 },
     ]), { name: key + ' photo shade' });
     s.text(caption, px + 0.18, y + ph - 0.33, pw - 0.3, 0.26, { fontSize: 11, color: C.white, name: key + ' photo caption' });
   });
@@ -1041,7 +1046,7 @@ const PHOTO_KEYS = [
 async function slideSources() {
   const s = newSlide('fade');
   heading(s, '附录', '参考资料');
-  const lw = 6.9;
+  const lw = 7.35;
   s.text('资料与数据', MX, 1.95, lw, 0.28, { fontSize: 12, color: C.gold, charSpacing: 2, name: 'Refs caption' });
   s.text(
     REFERENCES.map((r, i) => run(`[${i + 1}]  ${r}`, { paraSpaceAfter: 5, breakLine: true })),
@@ -1050,8 +1055,8 @@ async function slideSources() {
   s.anim('Refs caption', 'fade', 500, 400);
   REFERENCES.forEach((_, i) => s.anim('Refs list', 'fade', 600 + i * 90, 400, { para: i }));
 
-  const x = MX + lw + 0.5, w = W - MX - x;
-  s.text('图片（均来自维基共享资源 Wikimedia Commons）', x, 1.95, w, 0.28, { fontSize: 12, color: C.gold, charSpacing: 1, name: 'Photos caption' });
+  const x = MX + lw + 0.45, w = W - MX - x;
+  s.text('图片（均来自维基共享资源 Wikimedia Commons）', x, 1.95, w, 0.28, { fontSize: 12, color: C.gold, name: 'Photos caption' });
   const byAuthor = new Map();
   for (const key of PHOTO_KEYS) {
     const p = photoInfo[key];

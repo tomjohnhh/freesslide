@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const files = ['build.js', 'lib/fx.js', 'photos.json', 'CREDITS.md', 'package.json']
+const files = ['build.js', 'build-pkx.js', 'lib/fx.js', 'photos.json', 'photos-pkx.json', 'CREDITS.md', 'package.json']
   .concat(fs.readdirSync(path.join(__dirname, 'photos')).sort().map((f) => 'photos/' + f));
 const manifest = {};
 for (const f of files) {

@@ -1,0 +1,8 @@
+{
+  "name": "mv-anime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Anime-style lyric video drawn entirely by code: its own anti-aliased vector rasteriser, cel-shaded characters, painted layers moved by a parallax camera, 60 frames a second. No pictures are used. The soundtrack and the caption text are supplied locally and never stored here.",
+  "license": "MIT",
+  "engines": { "node": ">=18" }
+}

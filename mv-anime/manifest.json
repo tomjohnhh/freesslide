@@ -1,0 +1,20 @@
+{
+ "package.json": "70ff3ac834d82111003e0c6ccedf9d7c8740e6b7e03c95d822ccd49da6db615d",
+ "render.js": "4d122e3b0624e2be8afe5e2762908f25b9a66a5282b24d5384ec900fb598c264",
+ "sync.js": "742e723204009b14d42e3a33490cfc91dccda4bf300af5e21fe4dc55b2aa8aac",
+ "assets/fonts/RiversideKai.ttf": "9c79559c7cf4ed65d6629dde51c9e85f0129947e8acdb7e3a2926e230b705d10",
+ "assets/fonts/FONT-LICENSE.txt": "1a25e35da1031c6c3436fde545bb9cb5aca954e9873afe510c834b8b79bd21a0",
+ "lib/ass.js": "edddc830d9bdd498398cd1b74d963bc019ddda43c46612b809aed5f9c7dcbd37",
+ "lib/draw.js": "ff2027904d28811c52df628c1fa45a830685c392204eae0f1c2bbfbbdb08bb39",
+ "lib/look.js": "1d5d105cf562c06b5ef4cf74a8c7a42770a404919de6e66da3ba94f94984c97b",
+ "lib/people.js": "fec8eae2888d7d4048751d4f6124914e0f7f3e82b216bb0ba00d60466e471a5a",
+ "lib/props.js": "ad7947c2564f0b0aba400ccdc50445fda42fe01edac8fda7470e099f6edc224e",
+ "lib/raster.js": "e1fb58a7b7e9a8d6ca9308d5e17426f2549078a8d9670eb90505b1d43892d0c6",
+ "lib/show.js": "dc784221b9bd18326e44788e016ac2cb02eea77f1cb93ce432644991e7341d4c",
+ "lib/story.js": "b575cb0b36d44ee6d6d8ca6a30d88a55e97b4c82254284fc412501e932098afa",
+ "lib/trans.js": "30701f789fe05149e365fd3fd73166bd942f839c9fe6cbd76fd02228603839cc",
+ "lib/world.js": "a6966fe5a11562391634c6fd1f75aeb169c77242a16fc75a3f00a396a7e81d8a",
+ "tools/manifest.js": "7dfd9840a46b44e7b9e846523f05e029318836342b806639b2aed7234e0dd774",
+ "tools/stills.js": "1c41afcb7c324ca198fb7062f71f0bc2ee282707e367dea5b4b1ec7263970ef8",
+ "tools/verify.js": "405b6ff11968edb937a1af248f4ff9c32082f73aef17949ae7baa07a62284e4e"
+}

@@ -15,7 +15,8 @@ const ROOT = __dirname;
 const PHOTOS = path.join(ROOT, 'photos');
 const IMG = path.join(ROOT, 'img');
 const OUT = path.join(ROOT, 'out');
-const OUT_FILE = path.join(OUT, '中国大型机场.pptx');
+// Optional argument: output path (useful while an earlier build is still open in a viewer).
+const OUT_FILE = process.argv[2] ? path.resolve(process.argv[2]) : path.join(OUT, '中国大型机场.pptx');
 
 const W = 13.333;
 const H = 7.5;

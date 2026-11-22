@@ -5,7 +5,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const root = path.join(__dirname, '..');
-const files = ['package.json', 'analyze.js', 'render.js', 'sync.js', 'tools/captions.js', 'tools/probe.js', 'assets/px12.bin.gz', 'assets/FONT-LICENSE.txt'];
+const files = ['package.json', 'analyze.js', 'render.js', 'sync.js', 'tools/captions.js', 'tools/probe.js', 'tools/verify.js', 'assets/px12.bin.gz', 'assets/FONT-LICENSE.txt'];
 for (const f of fs.readdirSync(path.join(root, 'lib')).sort()) if (f.endsWith('.js')) files.push('lib/' + f);
 const manifest = {};
 for (const f of files) {

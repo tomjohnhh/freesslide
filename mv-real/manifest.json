@@ -13,6 +13,7 @@
  "lib/show.js": "f34fe41ae733efd5c5731090e19afcb31997ca679631d245d9b905843ba2f062",
  "tools/manifest.js": "412dc7552039850af637d497cdf9908ad1db428ad0e7fe6185f40f2a5edc7efb",
  "tools/stills.js": "5c652769ccca18a70bd4f8fa8ffe63538a092c100c560dcdf858340076050888",
+ "tools/verify.js": "b38a20d1022440aebe2cab321ea82a5f95b554d8fe709abd4846ba260b58cef3",
  "assets/img/desk.jpg": "8fad3de874d6d8a1c5900c66a2abbe0d6794988e3d8d019d29619c8be0e82937",
  "assets/img/y09_apple.jpg": "f6023872d1f7f1bdf24c698e42ed670c5d40e92743b0859a21a681dab98575d7",
  "assets/img/y09_first.jpg": "8e9beda09b683cb2dea39e87973c92495e6d4dfe2b66ddb559d1e4b43b02572b",

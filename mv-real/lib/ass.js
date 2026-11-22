@@ -20,7 +20,7 @@ function stamp(t) {
 
 const clean = (s) => String(s).replace(/[{}\\\r\n]/g, ' ');
 
-// lines: [{ t0, t1, text }] sung captions; texts: [{ t0, t1, style, text, pos, fade, tags, layer }]
+// lines: [{ t0, t1, text }] sung captions; texts: [{ t0, t1, style, text, pos, move, fade, tags, layer }]
 function build({ lines, texts, shift = 0 }) {
   const out = [
     '[Script Info]', 'ScriptType: v4.00+', 'PlayResX: 1920', 'PlayResY: 1080', 'WrapStyle: 2', 'ScaledBorderAndShadow: yes', '',
@@ -43,7 +43,9 @@ function build({ lines, texts, shift = 0 }) {
   for (const e of texts || []) {
     const fade = e.fade || [200, 200];
     let tags = `\\fad(${fade[0]},${fade[1]})\\blur${e.blur === undefined ? 1.2 : e.blur}`;
-    if (e.pos) tags += `\\an${e.an || 5}\\pos(${Math.round(e.pos[0])},${Math.round(e.pos[1])})`;
+    // move: [x, y, from, to] glides the text there between those moments (ms after it appears)
+    if (e.pos && e.move) tags += `\\an${e.an || 5}\\move(${Math.round(e.pos[0])},${Math.round(e.pos[1])},${Math.round(e.move[0])},${Math.round(e.move[1])},${Math.round(e.move[2])},${Math.round(e.move[3])})`;
+    else if (e.pos) tags += `\\an${e.an || 5}\\pos(${Math.round(e.pos[0])},${Math.round(e.pos[1])})`;
     if (e.tags) tags += e.tags;
     add(e.layer || 3, e.t0, e.t1, e.style || 'Sub', `{${tags}}${clean(e.text)}`);
   }

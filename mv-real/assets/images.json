@@ -15,8 +15,23 @@
   "w": 1280,
   "h": 720
  },
+ "y09_feet": {
+  "file": "y09_feet.jpg",
+  "w": 1280,
+  "h": 720
+ },
  "y09_first": {
   "file": "y09_first.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_give": {
+  "file": "y09_give.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_hands": {
+  "file": "y09_hands.jpg",
   "w": 1280,
   "h": 720
  },
@@ -27,6 +42,16 @@
  },
  "y09_him": {
   "file": "y09_him.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_lcd": {
+  "file": "y09_lcd.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_lens": {
+  "file": "y09_lens.jpg",
   "w": 1280,
   "h": 720
  },
@@ -42,6 +67,11 @@
  },
  "y09_tripod": {
   "file": "y09_tripod.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_walk": {
+  "file": "y09_walk.jpg",
   "w": 1280,
   "h": 720
  },

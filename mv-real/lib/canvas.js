@@ -52,6 +52,16 @@ function view(fb, img, cam = {}, alpha = 1) {
   }
 }
 
+// Where a point of the image (fx, fy as fractions of it) lands on the stage under that camera.
+function viewPoint(img, cam, fx, fy) {
+  const iw = img.w, ih = img.h, cover = Math.max(VW / iw, VH / ih) * (cam.zoom || 1), k = 1 / cover;
+  const rot = cam.rot || 0, c = Math.cos(rot), sn = Math.sin(rot);
+  const reachX = (Math.abs(c) * VW + Math.abs(sn) * VH) * k / 2, reachY = (Math.abs(sn) * VW + Math.abs(c) * VH) * k / 2;
+  const keep = (v, reach, size) => (reach * 2 >= size ? size / 2 : Math.min(size - reach, Math.max(reach, v)));
+  const dx = fx * iw - keep((cam.cx === undefined ? 0.5 : cam.cx) * iw, reachX, iw), dy = fy * ih - keep((cam.cy === undefined ? 0.5 : cam.cy) * ih, reachY, ih);
+  return [VW / 2 + (dx * c + dy * sn) * cover, VH / 2 + (-dx * sn + dy * c) * cover];
+}
+
 function bounds(fb, cx, cy, hw, hh, rot, pad) {
   const c = Math.abs(Math.cos(rot)), sn = Math.abs(Math.sin(rot));
   const ex = hw * c + hh * sn + pad, ey = hw * sn + hh * c + pad, s = fb.s;
@@ -192,4 +202,4 @@ function print(fb, img, o) {
   return { W, H, pw, ph };
 }
 
-module.exports = { VW, VH, FULL, FB, view, quad, box, line, frame, disc, mix, print };
+module.exports = { VW, VH, FULL, FB, view, viewPoint, quad, box, line, frame, disc, mix, print };

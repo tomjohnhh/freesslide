@@ -1,0 +1,14 @@
+{
+  "name": "china-airports-deck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generator for the deck 中国大型机场 (PptxGenJS + OOXML post-processing for transitions and animations)",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "jszip": "3.10.1",
+    "pptxgenjs": "3.12.0",
+    "sharp": "0.33.5"
+  }
+}

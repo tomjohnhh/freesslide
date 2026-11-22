@@ -23,8 +23,30 @@ function createAssets({ root, ffmpeg, enlarge }) {
     const res = spawnSync(ffmpeg, ['-v', 'error', '-i', path.join(dir, info.file), '-vf', vf, '-frames:v', '1', '-f', 'rawvideo', '-pix_fmt', 'rgb24', 'pipe:1'], { maxBuffer: w * h * 3 + 1024 });
     if (res.status !== 0 || !res.stdout || res.stdout.length !== w * h * 3) throw new Error(`could not decode ${info.file}: ${res.stderr ? res.stderr.toString().slice(0, 300) : res.error}`);
     const img = { id, w, h, d: new Uint8Array(res.stdout.buffer, res.stdout.byteOffset, res.stdout.length) };
+    if (info.noise !== 0) sensorNoise(img, info.noise === undefined ? 1 : info.noise, enlarge > 1 ? 2 : 1);
     store.set(id, img);
     return img;
+  }
+
+  // The noise of a small camera sensor, fixed to the picture: brightness noise plus a little
+  // colour noise, stronger in the shadows.
+  function sensorNoise(img, amount, cell) {
+    let seed = 0x2545f491;
+    for (const ch of img.id) seed = Math.imul(seed ^ ch.charCodeAt(0), 0x01000193);
+    const rnd = () => { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return (seed >>> 0) / 4294967296; };
+    const gauss = () => rnd() + rnd() + rnd() - 1.5;
+    const { w, h, d } = img, cw = Math.ceil(w / cell), chh = Math.ceil(h / cell);
+    const nl = new Float32Array(cw * chh), nr = new Float32Array(cw * chh), nb = new Float32Array(cw * chh);
+    for (let i = 0; i < nl.length; i++) { nl[i] = gauss() * 9 * amount; nr[i] = gauss() * 4 * amount; nb[i] = gauss() * 5 * amount; }
+    const out = new Uint8ClampedArray(d.buffer, d.byteOffset, d.length);
+    for (let y = 0; y < h; y++) {
+      const cy = ((y / cell) | 0) * cw;
+      for (let x = 0; x < w; x++) {
+        const p = (y * w + x) * 3, c = cy + ((x / cell) | 0);
+        const k = 1.25 - d[p + 1] * 0.0027;
+        out[p] = d[p] + (nl[c] + nr[c]) * k; out[p + 1] = d[p + 1] + nl[c] * k; out[p + 2] = d[p + 2] + (nl[c] + nb[c]) * k;
+      }
+    }
   }
 
   // A copy of the picture with the orange date a compact camera burns into the corner.

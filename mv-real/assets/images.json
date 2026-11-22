@@ -2,10 +2,16 @@
  "desk": {
   "file": "desk.jpg",
   "w": 1280,
-  "h": 720
+  "h": 720,
+  "noise": 0.35
  },
  "y09_apple": {
   "file": "y09_apple.jpg",
+  "w": 1280,
+  "h": 720
+ },
+ "y09_apple2": {
+  "file": "y09_apple2.jpg",
   "w": 1280,
   "h": 720
  },

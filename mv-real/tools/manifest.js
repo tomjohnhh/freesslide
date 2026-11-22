@@ -12,7 +12,9 @@ for (const f of fs.readdirSync(path.join(root, 'assets', 'img')).sort()) {
   if (!/\.(jpg|png)$/.test(f)) continue;
   const res = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', path.join(root, 'assets', 'img', f)]);
   const [w, h] = res.stdout.toString().trim().split(',').map(Number);
-  images[f.replace(/\.\w+$/, '')] = { file: f, w, h };
+  const id = f.replace(/\.\w+$/, '');
+  images[id] = { file: f, w, h };
+  if (id === 'desk') images[id].noise = 0.35;
 }
 fs.writeFileSync(path.join(root, 'assets', 'images.json'), JSON.stringify(images, null, 1) + '\n');
 

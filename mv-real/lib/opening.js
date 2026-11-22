@@ -114,24 +114,32 @@ function create(ctx) {
   shots.push({
     from: 10, to: 11,
     draw(fb, t, b, u) {
-      view(fb, A.get('y09_her'), { cx: lerp(0.47, 0.44, ease.out(u)), cy: 0.47, zoom: lerp(1.08, 1.17, ease.out(u)) });
+      view(fb, A.get('y09_her'), { cx: lerp(0.48, 0.46, ease.out(u)), cy: lerp(0.49, 0.47, ease.out(u)), zoom: lerp(1.03, 1.1, ease.out(u)) });
       look.flash(fb, 0.45 * clamp(1 - (b - 10) / 0.2));
     },
   });
   shots.push({
     from: 11, to: 12,
     draw(fb, t, b, u) {
-      view(fb, A.get('y09_him'), { cx: lerp(0.53, 0.56, ease.out(u)), cy: 0.47, zoom: lerp(1.08, 1.17, ease.out(u)) });
+      view(fb, A.get('y09_him'), { cx: lerp(0.5, 0.51, ease.out(u)), cy: lerp(0.49, 0.47, ease.out(u)), zoom: lerp(1.03, 1.1, ease.out(u)) });
       look.flash(fb, 0.45 * clamp(1 - (b - 11) / 0.2));
     },
   });
 
   shots.push({
-    from: 12, to: 17, fade: 0.45,
+    from: 12, to: 14.3, fade: 0.4,
     draw(fb, t, b) {
-      const u = clamp((b - 12) / 5);
-      view(fb, A.get('y09_apple'), { cx: lerp(0.5, 0.45, u), cy: lerp(0.5, 0.505, u), zoom: lerp(1.0, 1.13, u) });
-      look.leak(fb, t * 0.9, 0.34 + 0.1 * Math.sin(t * 1.7), 5);
+      const u = clamp((b - 12) / 2.8);
+      view(fb, A.get('y09_apple'), { cx: lerp(0.5, 0.47, u), cy: lerp(0.5, 0.49, u), zoom: lerp(1.0, 1.08, u) });
+      look.leak(fb, t * 0.9, 0.3 + 0.08 * Math.sin(t * 1.7), 5);
+    },
+  });
+  shots.push({
+    from: 14.3, to: 17, fade: 0.55,
+    draw(fb, t, b) {
+      const u = clamp((b - 14.3) / 2.7);
+      view(fb, A.get('y09_apple2'), { cx: lerp(0.47, 0.5, u), cy: lerp(0.44, 0.48, u), zoom: lerp(1.12, 1.03, ease.out(u)) });
+      look.leak(fb, t * 0.9 + 2, 0.3, 8);
     },
   });
 

@@ -514,7 +514,7 @@ async function slideAirport(a, page, side, transition) {
     s.anim(bar, 'wipe', d + 250, 450);
   });
 
-  s.text(bulletRuns(a.facts, 7), x0, 4.66, cw, 2.2, { fontSize: 12, color: C.text, lineSpacingMultiple: 1.12, name: 'Facts' });
+  s.text(bulletRuns(a.facts, 8), x0, 4.68, cw, 2.25, { fontSize: 13, color: C.text, lineSpacingMultiple: 1.12, name: 'Facts' });
   a.facts.forEach((_, i) => s.anim('Facts', 'slide', 800 + i * 150, 550, { para: i, offset: left ? 0.03 : -0.03 }));
 
   s.text(`${String(page).padStart(2, '0')} / ${TOTAL}`, x0 + cw - 1.4, 7.09, 1.4, 0.22, { fontSize: 9, color: C.muted, align: 'right', fontFace: FONT.num, name: 'Footer page' });

@@ -321,8 +321,8 @@ function room(fb, t, o = {}) {
   }
   fb.rect(wx - 14, wy - 11, ww + 28, 2, 0xcbb89c);
   // a small plant on the sill
-  fb.rect(wx + 86, wy + wh - 5, 8, 6, 0xc86a4a); fb.rect(wx + 85, wy + wh - 6, 10, 2, 0xe08a62);
-  fb.rect(wx + 89, wy + wh - 13, 3, 8, 0x4a8a54); fb.rect(wx + 86, wy + wh - 10, 3, 2, 0x4a8a54); fb.rect(wx + 92, wy + wh - 12, 2, 2, 0x5fa862);
+  fb.rect(wx + 10, wy + wh - 5, 8, 6, 0xc86a4a); fb.rect(wx + 9, wy + wh - 6, 10, 2, 0xe08a62);
+  fb.rect(wx + 13, wy + wh - 13, 3, 8, 0x4a8a54); fb.rect(wx + 10, wy + wh - 10, 3, 2, 0x4a8a54); fb.rect(wx + 16, wy + wh - 12, 2, 2, 0x5fa862);
 
   // clock
   const cx = 186, cy = 34;
@@ -359,7 +359,7 @@ function room(fb, t, o = {}) {
   for (const [dx, dy] of [[0, -8], [4, -11], [8, -7], [-3, -5], [11, -4]]) fb.disc(bx + 12 + dx, by - 10 + dy, 3, dy < -7 ? 0x5fa862 : 0x3f7a4a);
 
   // chair back
-  fb.rect(134, 96, 34, 26, 0x5a465c); fb.rect(134, 96, 34, 2, 0x7a6280); fb.rect(134, 96, 2, 26, 0x7a6280);
+  fb.rect(135, 88, 32, 34, 0x3a2622); fb.rect(137, 90, 28, 32, 0x5a3c34); fb.rect(137, 90, 28, 2, 0x7a5646); for (const sx of [144, 151, 158]) fb.rect(sx, 92, 1, 30, 0x3a2622);
 
   if (o.actors) o.actors(fb);
 
@@ -377,17 +377,22 @@ function room(fb, t, o = {}) {
   // lamp on the desk
   const lx = 84;
   const lamp = o.lamp == null ? 1 : o.lamp;
-  fb.rect(lx - 7, dy - 3, 14, 3, 0x2f6052); fb.rect(lx - 7, dy - 3, 14, 1, 0x4a8a72);
-  fb.line(lx, dy - 3, lx - 6, dy - 20, 0x2f3a44); fb.line(lx + 1, dy - 3, lx - 5, dy - 20, 0x2f3a44);
-  fb.line(lx - 6, dy - 20, lx + 8, dy - 32, 0x2f3a44); fb.line(lx - 5, dy - 20, lx + 9, dy - 32, 0x2f3a44);
-  for (let i = 0; i < 9; i++) fb.rect(lx + 6 - i, dy - 36 + i, 8 + i * 2, 1, i < 2 ? 0x4a8a72 : 0x2f6052);
-  fb.rect(lx - 2, dy - 27, 24, 1, lamp > 0 ? 0xfff6d0 : 0x8a8a7a);
+  fb.rect(lx - 6, dy - 2, 13, 2, 0x2f3a44); fb.rect(lx - 4, dy - 3, 9, 1, 0x4a5a66);
+  fb.rect(lx, dy - 24, 2, 22, 0x2f3a44); fb.rect(lx + 1, dy - 24, 1, 22, 0x5a6a76);
+  fb.rect(lx, dy - 26, 14, 2, 0x2f3a44);
+  for (let i = 0; i < 10; i++) {
+    const half = 4 + i * 1.0;
+    fb.rect(Math.round(lx + 16 - half) - 1, dy - 35 + i, Math.round(half * 2) + 2, 1, 0x16302a);
+    fb.rect(Math.round(lx + 16 - half), dy - 35 + i, Math.round(half * 2), 1, i < 2 ? 0x6fb48a : i < 6 ? 0x3f7a62 : 0x2f6052);
+  }
+  fb.rect(lx + 9, dy - 33, 2, 5, 0x9fd8b4);
+  fb.rect(lx + 3, dy - 25, 26, 1, lamp > 0 ? 0xfff6d0 : 0x8a8a7a);
   if (lamp > 0) {
-    for (let i = 0; i < 26; i++) {
-      const half = 12 + i * 2.4;
-      fb.rectD(Math.round(lx + 10 - half), dy - 26 + i, Math.round(half * 2), 1, 0xffe2a6, (0.3 - i * 0.008) * lamp);
+    for (let i = 0; i < 24; i++) {
+      const half = 13 + i * 2.5;
+      fb.rectA(Math.round(lx + 16 - half), dy - 24 + i, Math.round(half * 2), 1, 0xffe2a6, (0.2 - i * 0.006) * lamp);
     }
-    fb.ellipseA(lx + 12, dy + 1, 62, 5, 0xffe2a6, 0.22 * lamp);
+    fb.ellipseA(lx + 16, dy + 1, 70, 4, 0xffe2a6, 0.2 * lamp);
   }
 
   if (o.items) o.items(fb);

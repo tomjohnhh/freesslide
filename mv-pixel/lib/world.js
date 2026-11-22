@@ -62,13 +62,13 @@ const TIMES = {
     bird: null,
     far1: 0x232a5c, far2: 0x141a3e, far2Edge: 0x2a3268, win: [0xffe09a, 0xffb86a], nightWin: true, shore: 0x0e1430,
     water: [[0, 0x2a3878], [0.4, 0x1c2658], [1, 0x10173c]],
-    glint: [0xeef2ff, 0xb4c0f0], ripple: [0x5a6cb4, 0x44529a, 0x2e3a7a], rippleDark: [0x16204e, 0x0a1030],
+    glint: [0xeef2ff, 0x8f9fe0], glintMin: 0.6, ripple: [0x5a6cb4, 0x44529a, 0x2e3a7a], rippleDark: [0x16204e, 0x0a1030],
     lamp: 2, g: grader([0.5, 0.56, 0.8], 0x141a40, 0.22), cg: grader([0.8, 0.8, 0.96], 0x2a3066, 0.14),
   },
   day: {
     sky: [[0, 0x3d8be0], [0.5, 0x6fb6f0], [0.85, 0xaedcf8], [1, 0xd8f0fa]],
     stars: 0,
-    sun: { x: 268, y: 16, halo: [[20, 20, 0xfff6c0, 0.22], [13, 13, 0xfffbe0, 0.5]], disc: [[8, 0xfffbe6]], noColumn: true },
+    sun: { x: 204, y: 18, halo: [[20, 20, 0xfff6c0, 0.22], [13, 13, 0xfffbe0, 0.5]], disc: [[8, 0xfffbe6]], noColumn: true },
     cloud: [0xffffff, 0xffffff, 0xeaf3fc, 0xcfe2f6],
     bird: 0x4a5a80,
     far1: 0xa8c4e4, far2: 0x86a4cc, far2Edge: 0xa6c0e0, win: [0xe4f4ff, 0xcfe6fa], shore: 0x3f7a52,
@@ -130,7 +130,7 @@ function look(opts = {}) {
   let L = looks.get(key);
   if (!L) {
     const T = TIMES[time], V = SEASONS[season];
-    L = { ...T, veg: V, snow: !!V.snow, era, season, time, key, fireflies: season === 'summer' && time === 'night' };
+    L = { ...T, veg: V, snow: !!V.snow, era, season, time, key, fireflies: time === 'night' && (season === 'summer' || season === 'spring') };
     looks.set(key, L);
   }
   return L;
@@ -333,7 +333,7 @@ function drawRiver(fb, t, cam, lightX, L) {
       const step = Math.floor(t * 5);
       for (let x = Math.floor(lightX - half); x <= lightX + half; x++) {
         const n = hash(x >> 1, y, step + ((x >> 1) & 3));
-        if (n > 0.42) fb.set(x, yy, n > 0.8 ? L.glint[0] : L.glint[1]);
+        if (n > (L.glintMin || 0.42)) fb.set(x, yy, n > 0.8 ? L.glint[0] : L.glint[1]);
       }
     }
     const drift = Math.floor(t * (3 + y * 0.35) + cam * 0.3);
